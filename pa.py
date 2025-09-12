@@ -5,7 +5,7 @@ import base64
 import tempfile
 
 # Title
-st.title("🤖 Personalll Assistant")
+st.title("🤖 Personal Assistant")
 
 # Session state for conversation memory
 if "messages" not in st.session_state:
@@ -69,4 +69,5 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant":  # Only assistant messages get voice output
             audio_html = text_to_speech(msg["content"])
             st.markdown(audio_html, unsafe_allow_html=True)
+
 

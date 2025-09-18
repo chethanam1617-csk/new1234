@@ -70,6 +70,13 @@ for msg in st.session_state.messages:
             audio_html = text_to_speech(msg["content"])
             st.markdown(audio_html, unsafe_allow_html=True)
 
+def get_wikipedia_image(query):
+    try:
+        page = wikipedia.page(query)
+        if page.images:
+            return page.images[0]  # First image from the page
+    except Exception:
+        return None
 
 
 

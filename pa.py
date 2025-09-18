@@ -3,6 +3,9 @@ import wikipedia
 from gtts import gTTS
 import base64
 import tempfile
+from googletrans import Translator
+from langdetect import detect
+
 
 # Title
 st.title("🤖 Personal Assistant")
@@ -137,6 +140,7 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant":
             audio_html = text_to_speech(msg["content"], lang=target_lang)
             st.markdown(audio_html, unsafe_allow_html=True)
+
 
 
 

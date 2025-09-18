@@ -71,7 +71,7 @@ for msg in st.session_state.messages:
             st.markdown(audio_html, unsafe_allow_html=True)
 
 
-from langdetect import detect
+
 
 # Language options
 language_map = {
@@ -137,6 +137,7 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant":
             audio_html = text_to_speech(msg["content"], lang=target_lang)
             st.markdown(audio_html, unsafe_allow_html=True)
+
 
 
 

@@ -3,8 +3,7 @@ import wikipedia
 from gtts import gTTS
 import base64
 import tempfile
-from googletrans import Translator
-from langdetect import detect
+
 
 
 # Title
@@ -75,71 +74,6 @@ for msg in st.session_state.messages:
 
 
 
-
-# Language options
-language_map = {
-    "English": "en",
-    "Hindi": "hi",
-    "Kannada": "kn",
-    "Tamil": "ta",
-    "French": "fr"
-}
-
-selected_lang = st.sidebar.selectbox("🌐 Choose your language", list(language_map.keys()))
-target_lang = language_map[selected_lang]
-translator = Translator()
-
-def translate_text(text, dest_lang):
-    try:
-        return translator.translate(text, dest=dest_lang).text
-    except Exception as e:
-        return f"⚠️ Translation error: {e}"
-def text_to_speech(text, lang="en"):
-    try:
-        tts = gTTS(text=text, lang=lang)
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
-            tts.save(tmp_file.name)
-            audio_bytes = open(tmp_file.name, "rb").read()
-        audio_base64 = base64.b64encode(audio_bytes).decode()
-        audio_html = f"""
-            <audio autoplay controls>
-                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
-            </audio>
-        """
-        return audio_html
-    except Exception as e:
-        return f"⚠️ Error in speech synthesis: {e}"
-
-def text_to_speech(text, lang="en"):
-    try:
-        tts = gTTS(text=text, lang=lang)
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
-            tts.save(tmp_file.name)
-            audio_bytes = open(tmp_file.name, "rb").read()
-        audio_base64 = base64.b64encode(audio_bytes).decode()
-        audio_html = f"""
-            <audio autoplay controls>
-                <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
-            </audio>
-        """
-        return audio_html
-    except Exception as e:
-        return f"⚠️ Error in speech synthesis: {e}"
-if user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
-    response = assistant_response(user_input)
-    translated_response = translate_text(response, target_lang)
-
-    st.session_state.messages.append({"role": "assistant", "content": translated_response})
-
-
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.write(msg["content"])
-        if msg["role"] == "assistant":
-            audio_html = text_to_speech(msg["content"], lang=target_lang)
-            st.markdown(audio_html, unsafe_allow_html=True)
 
 
 
